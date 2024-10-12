@@ -1,0 +1,1 @@
+# Szarvas-PC-Inventory-Manager
