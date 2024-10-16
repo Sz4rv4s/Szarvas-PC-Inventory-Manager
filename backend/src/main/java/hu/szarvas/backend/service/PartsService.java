@@ -8,7 +8,6 @@ import hu.szarvas.backend.model.Part;
 import hu.szarvas.backend.model.Warehouse;
 import hu.szarvas.backend.repository.PartsRepository;
 import hu.szarvas.backend.repository.WarehousesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,11 +17,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class PartsService {
-    @Autowired
-    private PartsRepository partsRepository;
+    private final PartsRepository partsRepository;
 
-    @Autowired
-    private WarehousesRepository warehousesRepository;
+    private final WarehousesRepository warehousesRepository;
+
+    public PartsService(PartsRepository partsRepository, WarehousesRepository warehousesRepository) {
+        this.partsRepository = partsRepository;
+        this.warehousesRepository = warehousesRepository;
+    }
 
     public List<PartDTO> getAllParts() {
         return partsRepository.findAll().stream()
