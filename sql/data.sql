@@ -1,0 +1,10 @@
+Insert into warehouses values(1,'Large Warehouse', 'Debrecen', 'Petőfi st. 15/b', 10000);
+Insert into warehouses values(2,'West Warehouse', 'Szeged', 'Szabadság st 97', 6750);
+Insert into warehouses values(3,'South Warehouse', 'Nyíregyháza', 'Hunyadi st 75/a', 8210);
+Insert into parts values('1', 'RTX 3060 8G', 'MSI', 200000, 1);
+Insert into parts values('2', 'Core I3-9100F', 'Intel', 30000, 3);
+Insert into parts values('3', 'RX 570 8G', 'MSI', 50000, 2);
+Insert into parts values('4', 'H-310M', 'ASUS', 30694, 2);
+Insert into parts values('5', 'ECO SERIES 600W', 'Chieftec', 25000, 1);
+Insert into parts values('6', 'RTX 4080 Ti', 'ASUS', 400000, 1);
+Insert into parts values('7', 'NF-A14x25', 'Noctua', 21000, 3);
