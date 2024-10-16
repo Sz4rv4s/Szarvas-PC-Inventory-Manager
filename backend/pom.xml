@@ -11,7 +11,7 @@
 	<groupId>hu.szarvas</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>backend</name>
+	<name>Szarvas PC API</name>
 	<description>Szarvas PC Inventory Manager backend API with Spring</description>
 	<url/>
 	<licenses>
@@ -42,6 +42,10 @@
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
