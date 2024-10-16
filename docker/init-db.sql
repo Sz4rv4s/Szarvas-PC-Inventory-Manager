@@ -3,12 +3,12 @@ CREATE DATABASE IF NOT EXISTS szarvaspc;
 USE szarvaspc;
 
 CREATE TABLE IF NOT EXISTS warehouses (
-    id INT PRIMARY KEY NOT NULL,
-    name VARCHAR(50) NOT NULL,
-    city VARCHAR(30) NOT NULL,
-    address VARCHAR(60) NOT NULL,
-    capacity INT NOT NULL
-);
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    city VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    address VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    capacity INT
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS parts (
     id INT PRIMARY KEY NOT NULL,
