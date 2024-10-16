@@ -50,7 +50,7 @@ public class PartsService {
                 .collect(Collectors.toList());
     }
 
-    public PartDTO addPart(PartDTO partDTO, Integer raktarId) {
+    public void addPart(PartDTO partDTO, Integer raktarId) {
         Warehouse warehouse = warehousesRepository.findById(raktarId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Warehouse not found"));
 
@@ -63,7 +63,7 @@ public class PartsService {
 
         Part savedPart = partsRepository.save(part);
 
-        return convertToPartDTO(savedPart);
+        convertToPartDTO(savedPart);
     }
 
     public void deletePart(Integer id) {
