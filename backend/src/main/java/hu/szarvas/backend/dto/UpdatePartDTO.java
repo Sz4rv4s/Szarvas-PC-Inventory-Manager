@@ -8,6 +8,6 @@ import lombok.Setter;
 public class UpdatePartDTO {
     private String model;
     private String brand;
-    private int ar;
+    private int price;
     private int warehouseId;
 }
