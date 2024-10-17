@@ -71,8 +71,8 @@ public class RequestController {
         }
     }
 
-    @DeleteMapping("/deleteitem/{partId}")
-    public ApiResponseDTO deleteItem(@PathVariable final int partId) {
+    @DeleteMapping("/deletepart/{partId}")
+    public ApiResponseDTO deletePart(@PathVariable final int partId) {
         try {
             partsService.deletePart(partId);
             return new ApiResponseDTO("Part deleted successfully");
