@@ -1,25 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Part, Warehouse } from '../types';
-import SearchPart from './SearchPart';
+import SearchId from './SearchId';
 import ContentHeader from './ContentHeader';
 import styles from './MainContent.module.css';
 
 interface MainContentProps {
     data: Part[] | Warehouse[] | null;
     dataType: 'parts' | 'warehouses';
+    fetchData: (endpoint: string, type: 'parts' | 'warehouses') => Promise<void>; // Pass fetchData to MainContent
 }
 
-const MainContent: React.FC<MainContentProps> = ({ data, dataType }) => {
+const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) => {
     const [searchedPart, setSearchedPart] = useState<Part | null>(null);
+
+    useEffect(() => {
+        setSearchedPart(null);
+    }, [dataType]);
 
     const handlePartFound = (part: Part | null) => {
         setSearchedPart(part);
     };
 
+    const handleClearSearch = () => {
+        setSearchedPart(null);
+        fetchData('getallparts', 'parts');
+    };
+
     return (
         <div className={styles.mainContent}>
-            <ContentHeader title="Inventory Manager"/>
-            <SearchPart onPartFound={handlePartFound} />
+            <ContentHeader title="Inventory Manager" />
+            {dataType === 'parts' && (
+                <div className={styles.searchContainer}>
+                    <SearchId onPartFound={handlePartFound} onClear={handleClearSearch} />
+                </div>
+            )}
+
+            {data === null && <p className={styles.welcome}>Welcome!</p>}
+
             {searchedPart ? (
                 <div className={styles.tableContainer}>
                     <table className={styles.table}>
@@ -86,9 +103,7 @@ const MainContent: React.FC<MainContentProps> = ({ data, dataType }) => {
                         </tbody>
                     </table>
                 </div>
-            ) : (
-                <p>Welcome!</p>
-            )}
+            ) : null}
         </div>
     );
 };

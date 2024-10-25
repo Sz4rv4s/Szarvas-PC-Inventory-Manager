@@ -1,17 +1,19 @@
-
 import React, { useState } from 'react';
-import styles from './SearchPart.module.css';
-import {Part} from "../types.ts";
+import styles from './SearchId.module.css';
+import { Part } from "../types";
+import Modal from './Modal';
 
-interface SearchPartProps {
+interface SearchIdProps {
     onPartFound: (part: Part | null) => void;
+    onClear: () => void;
 }
 
-const SearchPart: React.FC<SearchPartProps> = ({ onPartFound }) => {
+const SearchId: React.FC<SearchIdProps> = ({ onPartFound, onClear }) => {
     const [showInput, setShowInput] = useState(false);
     const [partId, setPartId] = useState<string>('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [showModal, setShowModal] = useState(false);
 
     const fetchPart = async (id: string) => {
         try {
@@ -29,6 +31,7 @@ const SearchPart: React.FC<SearchPartProps> = ({ onPartFound }) => {
             setError('Part not found');
             console.error(err);
             onPartFound(null);
+            setShowModal(true);
         } finally {
             setLoading(false);
         }
@@ -40,10 +43,20 @@ const SearchPart: React.FC<SearchPartProps> = ({ onPartFound }) => {
         }
     };
 
+    const handleClear = () => {
+        onClear();
+        setPartId('');
+        setError(null);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
     return (
         <div className={styles.searchPart}>
             <button className={styles.button} onClick={() => setShowInput(!showInput)}>
-                {showInput ? 'Hide Search' : 'Search Part'}
+                {showInput ? 'Hide Search' : 'Search Id'}
             </button>
             {showInput && (
                 <div className={styles.inputContainer}>
@@ -57,11 +70,19 @@ const SearchPart: React.FC<SearchPartProps> = ({ onPartFound }) => {
                     <button className={styles.searchButton} onClick={handleSearch} disabled={loading}>
                         {loading ? 'Loading...' : 'Search'}
                     </button>
+                    <button className={styles.clearButton} onClick={handleClear}>
+                        Clear
+                    </button>
                 </div>
             )}
-            {error && <p className={styles.error}>{error}</p>}
+            {showModal && error && (
+                <Modal
+                    message={error}
+                    onClose={closeModal}
+                />
+            )}
         </div>
     );
 };
 
-export default SearchPart;
+export default SearchId;

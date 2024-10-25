@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
-import MainContent from './components/MainContent.tsx';
+import MainContent from './components/MainContent';
 import { Part, Warehouse } from './types';
-import styles from './App.module.css'
+import styles from './App.module.css';
 
 const App: React.FC = () => {
     const [data, setData] = useState<Part[] | Warehouse[] | null>(null);
-    const [dataType, setDataType] = useState<'parts' | 'warehouses'>('parts');
+    const [dataType, setDataType] = useState<'parts' | 'warehouses'>('warehouses');
 
     const fetchData = async (endpoint: string, type: 'parts' | 'warehouses') => {
         try {

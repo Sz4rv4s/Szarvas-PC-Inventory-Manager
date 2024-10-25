@@ -36,10 +36,23 @@
     color: white;
     border: none;
     cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+.clearButton {
+    padding: 0.5rem 1rem;
+    background-color: #b60303;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
 
 .searchButton:hover {
     background-color: #218838;
+}
+
+.clearButton:hover {
+    background-color: #970101;
 }
 
 .error {
