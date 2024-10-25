@@ -8,20 +8,6 @@
     box-sizing: border-box;
 }
 
-.contentHeader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    background-color: #003366;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    margin: 0;
-    box-sizing: border-box;
-    height: 64px;
-}
-
 .tableContainer {
     display: flex;
     justify-content: center;

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Part, Warehouse } from '../types';
+import SearchPart from './SearchPart';
+import ContentHeader from './ContentHeader';
 import styles from './MainContent.module.css';
 
 interface MainContentProps {
@@ -8,12 +10,38 @@ interface MainContentProps {
 }
 
 const MainContent: React.FC<MainContentProps> = ({ data, dataType }) => {
+    const [searchedPart, setSearchedPart] = useState<Part | null>(null);
+
+    const handlePartFound = (part: Part | null) => {
+        setSearchedPart(part);
+    };
+
     return (
         <div className={styles.mainContent}>
-            <div className={styles.contentHeader}>
-                <h2 className={styles.headerTitle}>Inventory Manager</h2>
-            </div>
-            {data ? (
+            <ContentHeader title="Inventory Manager"/>
+            <SearchPart onPartFound={handlePartFound} />
+            {searchedPart ? (
+                <div className={styles.tableContainer}>
+                    <table className={styles.table}>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Model</th>
+                            <th>Brand</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{searchedPart.id}</td>
+                            <td>{searchedPart.model}</td>
+                            <td>{searchedPart.brand}</td>
+                            <td>{searchedPart.price}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            ) : data ? (
                 <div className={styles.tableContainer}>
                     <table className={styles.table}>
                         <thead>
@@ -59,7 +87,7 @@ const MainContent: React.FC<MainContentProps> = ({ data, dataType }) => {
                     </table>
                 </div>
             ) : (
-                <p className={styles.welcome}>Welcome!</p>
+                <p>Welcome!</p>
             )}
         </div>
     );
