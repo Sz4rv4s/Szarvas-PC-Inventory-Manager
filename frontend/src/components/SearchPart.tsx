@@ -52,9 +52,8 @@ const SearchPart: React.FC<SearchPartProps> = ({ onPartFound, onClear }) => {
         setError(null);
     };
 
-    const toggleSearchType = () => {
-        setSearchType((prevType) => (prevType === 'id' ? 'name' : 'id'));
-        handleClear();
+    const handleToggleSearchType = () => {
+        setSearchType((prev) => (prev === 'name' ? 'id' : 'name'));
     };
 
     const closeModal = () => {
@@ -70,16 +69,14 @@ const SearchPart: React.FC<SearchPartProps> = ({ onPartFound, onClear }) => {
                 <div className={styles.inputContainer}>
                     <div className={styles.toggleContainer}>
                         <span className={styles.toggleLabel}>
-                            {searchType === 'id' ? 'ID Search' : 'Name Search'}
+                            {searchType === 'name' ? 'Search Name' : 'Search ID'}
                         </span>
-                        <label className={styles.toggleSwitch}>
-                            <input
-                                type="checkbox"
-                                checked={searchType === 'name'}
-                                onChange={toggleSearchType}
-                            />
-                            <span></span>
-                        </label>
+                        <div
+                            className={`${styles.toggleSwitch} ${searchType === 'id' ? styles.toggleSwitchActive : ''}`}
+                            onClick={handleToggleSearchType}
+                        >
+                            <div className={styles.toggleCircle}></div>
+                        </div>
                     </div>
                     <input
                         type="text"
@@ -89,7 +86,7 @@ const SearchPart: React.FC<SearchPartProps> = ({ onPartFound, onClear }) => {
                         className={styles.input}
                     />
                     <button className={styles.searchButton} onClick={handleSearch} disabled={loading}>
-                        {loading ? 'Loading...' : 'Search'}
+                    {loading ? 'Loading...' : 'Search'}
                     </button>
                     <button className={styles.clearButton} onClick={handleClear}>
                         Clear
