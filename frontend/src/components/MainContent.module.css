@@ -10,9 +10,21 @@
 
 .searchContainer {
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
-    margin: 3rem 1rem 1rem 1rem;
-    padding: 1rem 1rem 1rem 1rem;
+    align-items: flex-start;
+    margin: 5rem 1rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+}
+
+.searchControls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .tableContainer {
