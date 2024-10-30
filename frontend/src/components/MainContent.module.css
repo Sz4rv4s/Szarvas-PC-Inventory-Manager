@@ -1,45 +1,47 @@
 .mainContent {
-    margin: 0;
+    margin-left: 300px;
     padding: 0;
     width: calc(100% - 300px);
-    margin-left: 300px;
-    height: 100vh;
-    overflow-y: auto;
     box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100vh - 64px);
 }
 
-.contentHeader {
+.searchContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 5rem 1rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+}
+
+.searchControls {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 100%;
-    background-color: #003366;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    margin: 0;
-    box-sizing: border-box;
-    height: 64px;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .tableContainer {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
-    box-sizing: border-box;
+    margin-top: 1rem;
 }
 
 .table {
     width: 80%;
     border-collapse: collapse;
-    margin: 0 auto;
 }
 
 th, td {
     padding: 1rem;
     border: 1px solid #ddd;
     text-align: left;
-    box-sizing: border-box;
 }
 
 th {
@@ -51,6 +53,9 @@ tr:nth-child(even) {
 }
 
 .welcome {
-    font-size: 1.2rem;
+    padding: 1rem;
     text-align: center;
+    color: black;
+    font-weight: bold;
+    font-size: 3rem;
 }
