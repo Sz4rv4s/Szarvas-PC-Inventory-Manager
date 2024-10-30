@@ -125,7 +125,7 @@ const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) 
                                     <td>{warehouse.name}</td>
                                     <td>{warehouse.city}</td>
                                     <td>{warehouse.address}</td>
-                                    <td>{warehouse.capacity}</td>
+                                    <td>{warehouse.capacity} Pallets</td>
                                 </tr>
                             ))}
                         </tbody>
