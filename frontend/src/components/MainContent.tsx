@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Part, Warehouse } from '../types';
 import SearchPart from './SearchPart.tsx';
 import ContentHeader from './ContentHeader';
+import AddPartModal from './AddPartModal';
 import styles from './MainContent.module.css';
 
 interface MainContentProps {
@@ -12,6 +13,28 @@ interface MainContentProps {
 
 const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) => {
     const [searchedPart, setSearchedPart] = useState<Part | Part[] | null>(null);
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    const handleAddPartClick = () => {
+      setModalOpen(true);
+    }
+
+    const handleModalClose = () => {
+      setModalOpen(false);
+    }
+
+    const handleSavePart = async (part: Part, warehouseId: number) => {
+      try {
+        await fetch(`http://localhost:8000/api/addpart/${warehouseId}`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(part),
+        });
+        await fetchData('getallparts', 'parts');
+      } catch (error) {
+        console.error("Failed to add part: ", error);
+      }
+    };
 
     useEffect(() => {
         setSearchedPart(null);
@@ -35,12 +58,19 @@ const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) 
             <ContentHeader title="Inventory Manager" />
 
             {dataType === 'parts' && (
-                <div className={styles.searchContainer}>
+                <div className={styles.buttonsContainer}>
                     <div className={styles.searchControls}>
                         <SearchPart onPartFound={handlePartFound} onClear={handleClearSearch} />
                     </div>
+                  <button className={styles.button} onClick={handleAddPartClick}>Add Part</button>
                 </div>
             )}
+          <AddPartModal
+                isOpen={isModalOpen}
+                onClose={handleModalClose}
+                onSave={handleSavePart}
+                defaultId={data ? data.length + 2 : 1}
+            />
             {data === null && <p className={styles.welcome}>Welcome!</p>}
             {searchedPart && !Array.isArray(searchedPart) ? (
                 <div className={styles.tableContainer}>

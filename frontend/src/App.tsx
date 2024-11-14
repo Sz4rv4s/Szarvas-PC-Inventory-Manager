@@ -31,7 +31,11 @@ const App: React.FC = () => {
     return (
         <div className={styles.app}>
             <Navbar onButtonClick={handleButtonClick} />
-            <MainContent data={data} dataType={dataType} fetchData={fetchData} />
+            <MainContent
+                data={data}
+                dataType={dataType}
+                fetchData={fetchData}
+            />
         </div>
     );
 };
