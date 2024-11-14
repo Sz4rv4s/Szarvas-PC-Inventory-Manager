@@ -50,8 +50,8 @@ public class PartsService {
                 .collect(Collectors.toList());
     }
 
-    public void addPart(PartDTO partDTO, Integer raktarId) {
-        Warehouse warehouse = warehousesRepository.findById(raktarId)
+    public void addPart(PartDTO partDTO, Integer warehouseId) {
+        Warehouse warehouse = warehousesRepository.findById(warehouseId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Warehouse not found"));
 
         Part part = new Part();
