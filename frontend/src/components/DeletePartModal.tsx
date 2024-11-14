@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styles from './DeletePartModal.module.css';
+import styles from './PartModal.module.css';
 
 interface DeletePartModalProps {
   isOpen: boolean;

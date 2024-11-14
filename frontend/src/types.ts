@@ -12,3 +12,10 @@ export interface Warehouse {
     address: string;
     capacity: number;
 }
+
+export interface UpdatedPart {
+    model: string;
+    brand: string;
+    price: number;
+    warehouseId: number;
+}

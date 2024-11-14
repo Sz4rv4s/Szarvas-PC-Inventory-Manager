@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Part, Warehouse } from '../types';
+import { Part, Warehouse, UpdatedPart } from '../types';
 import SearchPart from './SearchPart.tsx';
 import ContentHeader from './ContentHeader';
 import AddPartModal from './AddPartModal';
 import styles from './MainContent.module.css';
 import DeletePartModal from "./DeletePartModal.tsx";
+import UpdatePriceModal from "./UpdatePriceModal.tsx";
+import UpdatePartModal from "./UpdatePartModal.tsx";
 
 interface MainContentProps {
-    data: Part[] | Warehouse[] | null;
+    data: Part[] | Warehouse[] | UpdatedPart[] | null;
     dataType: 'parts' | 'warehouses';
     fetchData: (endpoint: string, type: 'parts' | 'warehouses') => Promise<void>;
 }
@@ -16,14 +18,16 @@ const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) 
     const [searchedPart, setSearchedPart] = useState<Part | Part[] | null>(null);
     const [isAddPartModalOpen, setAddPartModalOpen] = useState(false);
     const [isDeletePartModalOpen, setDeletePartModalOpen] = useState(false);
+    const [isUpdatePriceModalOpen, setIsUpdatePriceModalOpen] = useState(false);
+    const [isUpdatePartModalOpen, setIsUpdatePartModalOpen] = useState(false);
 
     const handleAddPartClick = () => {
       setAddPartModalOpen(true);
-    }
+    };
 
     const handleAddPartModalClose = () => {
       setAddPartModalOpen(false);
-    }
+    };
 
     const handleSavePart = async (part: Part, warehouseId: number) => {
       try {
@@ -58,6 +62,51 @@ const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) 
       }
     };
 
+    const handleUpdatePriceClick = () => {
+      setIsUpdatePriceModalOpen(true);
+    };
+
+    const handleUpdatePriceModalClose = () => {
+      setIsUpdatePriceModalOpen(false);
+    };
+
+    const handleUpdatePrice = async (partId: number, price: number) => {
+      try {
+        await fetch(`http://localhost:8000/api/updateprice`, {
+          method: 'PATCH',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+                id: partId,
+                newPrice: price
+            }),
+        });
+        await fetchData('getallparts', 'parts');
+      } catch (error) {
+        console.error("Failed to update price: ", error);
+      }
+    };
+
+    const handleUpdatePartClick = () => {
+      setIsUpdatePartModalOpen(true);
+    };
+
+    const handleUpdatePartModalClose = () => {
+      setIsUpdatePartModalOpen(false);
+    };
+
+    const handleUpdatePart = async (part: UpdatedPart, partId: number) => {
+      try {
+        await fetch(`http://localhost:8000/api/updatepart/${partId}`, {
+          method: 'PUT',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(part),
+        });
+          await fetchData('getallparts', 'parts');
+      } catch (error) {
+        console.error("Failed to update part: ", error);
+      }
+    };
+
     useEffect(() => {
         setSearchedPart(null);
     }, [dataType]);
@@ -86,6 +135,8 @@ const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) 
                     </div>
                   <button className={styles.button} onClick={handleAddPartClick}>Add Part</button>
                   <button className={styles.buttonRed} onClick={handleDeletePartClick}>Delete Part</button>
+                  <button className={styles.button} onClick={handleUpdatePartClick}>Update Part</button>
+                  <button className={styles.button} onClick={handleUpdatePriceClick}>Update Price</button>
                 </div>
             )}
           <AddPartModal
@@ -98,6 +149,16 @@ const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) 
             isOpen={isDeletePartModalOpen}
             onClose={handleDeletePartModalClose}
             onSave={handleDeletePart}
+            />
+          <UpdatePartModal
+            isOpen={isUpdatePartModalOpen}
+            onClose={handleUpdatePartModalClose}
+            onSave={handleUpdatePart}
+            />
+          <UpdatePriceModal
+            isOpen={isUpdatePriceModalOpen}
+            onClose={handleUpdatePriceModalClose}
+            onSave={handleUpdatePrice}
             />
             {data === null && <p className={styles.welcome}>Welcome!</p>}
             {searchedPart && !Array.isArray(searchedPart) ? (

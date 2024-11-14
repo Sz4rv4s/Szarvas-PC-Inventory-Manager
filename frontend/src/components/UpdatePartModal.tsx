@@ -1,26 +1,22 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import styles from './PartModal.module.css';
 
-interface AddPartModalProps {
+interface UpdatePartModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (part: { id: number; model: string; brand: string; price: number }, warehouseId: number) => void;
-  defaultId: number;
+  onSave: (part: { model: string; brand: string; price: number, warehouseId: number }, partId: number) => void;
 }
 
-const AddPartModal: React.FC<AddPartModalProps> = ({ isOpen, onClose, onSave, defaultId }) => {
+const UpdatePartModal: React.FC<UpdatePartModalProps> = ({ isOpen, onClose, onSave }) => {
   const [model, setModel] = useState('');
   const [brand, setBrand] = useState('');
   const [price, setPrice] = useState(0);
-  const [warehouseId, setWarehouseId] = useState<number | null>(null);
-
-  useEffect(() => {
-    setWarehouseId(null);
-  }, [isOpen]);
+  const [warehouseId, setWarehouseId] = useState(0);
+  const [partId, setPartId] = useState(0);
 
   const handleSubmit = () => {
-    if (warehouseId != null) {
-      onSave({id: defaultId, model, brand, price}, warehouseId);
+    if (partId != null) {
+      onSave({model, brand, price, warehouseId}, partId);
       onClose();
     }
   };
@@ -30,8 +26,11 @@ const AddPartModal: React.FC<AddPartModalProps> = ({ isOpen, onClose, onSave, de
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modal}>
-        <h2>Add Part</h2>
+        <h2>Update Part</h2>
         <div className={styles.modalContent}>
+          <label className={styles.label}>Part ID:
+            <input className={styles.input} type="number" value={partId} onChange={(e) => setPartId(Number(e.target.value))}/>
+          </label>
           <label className={styles.label}>Model:
             <input className={styles.input} type="text" value={model} onChange={(e) => setModel(e.target.value)}/>
           </label>
@@ -42,7 +41,7 @@ const AddPartModal: React.FC<AddPartModalProps> = ({ isOpen, onClose, onSave, de
             <input className={styles.input} type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))}/>
           </label>
           <label className={styles.label}>Warehouse ID:
-            <input className={styles.input} type="number" value={warehouseId || ''} onChange={(e) => setWarehouseId(Number(e.target.value))}/>
+            <input className={styles.input} type="number" value={warehouseId} onChange={(e) => setWarehouseId(Number(e.target.value))}/>
           </label>
         </div>
         <div className={styles.modalButtons}>
@@ -54,4 +53,4 @@ const AddPartModal: React.FC<AddPartModalProps> = ({ isOpen, onClose, onSave, de
   );
 };
 
-export default AddPartModal;
+export default UpdatePartModal;
