@@ -15,8 +15,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class WarehousesService {
-    @Autowired
-    private WarehousesRepository warehousesRepository;
+    private final WarehousesRepository warehousesRepository;
+
+    public WarehousesService(WarehousesRepository warehousesRepository) {
+        this.warehousesRepository = warehousesRepository;
+    }
 
     public List<WarehouseDTO> getAllWarehouses() {
         return warehousesRepository.findAll().stream()
