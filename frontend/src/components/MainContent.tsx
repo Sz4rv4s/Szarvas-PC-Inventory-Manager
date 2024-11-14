@@ -4,6 +4,7 @@ import SearchPart from './SearchPart.tsx';
 import ContentHeader from './ContentHeader';
 import AddPartModal from './AddPartModal';
 import styles from './MainContent.module.css';
+import DeletePartModal from "./DeletePartModal.tsx";
 
 interface MainContentProps {
     data: Part[] | Warehouse[] | null;
@@ -13,14 +14,15 @@ interface MainContentProps {
 
 const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) => {
     const [searchedPart, setSearchedPart] = useState<Part | Part[] | null>(null);
-    const [isModalOpen, setModalOpen] = useState(false);
+    const [isAddPartModalOpen, setAddPartModalOpen] = useState(false);
+    const [isDeletePartModalOpen, setDeletePartModalOpen] = useState(false);
 
     const handleAddPartClick = () => {
-      setModalOpen(true);
+      setAddPartModalOpen(true);
     }
 
-    const handleModalClose = () => {
-      setModalOpen(false);
+    const handleAddPartModalClose = () => {
+      setAddPartModalOpen(false);
     }
 
     const handleSavePart = async (part: Part, warehouseId: number) => {
@@ -33,6 +35,26 @@ const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) 
         await fetchData('getallparts', 'parts');
       } catch (error) {
         console.error("Failed to add part: ", error);
+      }
+    };
+
+    const handleDeletePartClick = () => {
+      setDeletePartModalOpen(true);
+    };
+
+    const handleDeletePartModalClose = () => {
+      setDeletePartModalOpen(false);
+    };
+
+    const handleDeletePart = async (partId: number) => {
+      try {
+        await fetch(`http://localhost:8000/api/deletepart/${partId}`, {
+          method: 'DELETE',
+          headers: {'Content-Type': 'application/json'},
+        });
+        await fetchData('getallparts', 'parts');
+      } catch (error) {
+        console.error("Failed to delete part: ", error);
       }
     };
 
@@ -63,13 +85,19 @@ const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) 
                         <SearchPart onPartFound={handlePartFound} onClear={handleClearSearch} />
                     </div>
                   <button className={styles.button} onClick={handleAddPartClick}>Add Part</button>
+                  <button className={styles.buttonRed} onClick={handleDeletePartClick}>Delete Part</button>
                 </div>
             )}
           <AddPartModal
-                isOpen={isModalOpen}
-                onClose={handleModalClose}
+                isOpen={isAddPartModalOpen}
+                onClose={handleAddPartModalClose}
                 onSave={handleSavePart}
                 defaultId={data ? data.length + 2 : 1}
+            />
+          <DeletePartModal
+            isOpen={isDeletePartModalOpen}
+            onClose={handleDeletePartModalClose}
+            onSave={handleDeletePart}
             />
             {data === null && <p className={styles.welcome}>Welcome!</p>}
             {searchedPart && !Array.isArray(searchedPart) ? (

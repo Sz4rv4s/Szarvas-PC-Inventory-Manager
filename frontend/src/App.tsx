@@ -11,7 +11,9 @@ const App: React.FC = () => {
     const fetchData = async (endpoint: string, type: 'parts' | 'warehouses') => {
         try {
             const response = await fetch(`http://localhost:8000/api/${endpoint}`);
-            if (!response.ok) throw new Error('Error fetching data');
+            if (!response.ok) {
+                console.error("Error fetching data", response);
+            }
             const result = await response.json();
             setData(result);
             setDataType(type);
