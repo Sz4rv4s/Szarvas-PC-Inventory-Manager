@@ -5,7 +5,6 @@ import hu.szarvas.backend.dto.WarehouseDTO;
 import hu.szarvas.backend.dto.WarehouseWithPartsDTO;
 import hu.szarvas.backend.model.Warehouse;
 import hu.szarvas.backend.repository.WarehousesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
