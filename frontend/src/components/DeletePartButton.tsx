@@ -3,7 +3,7 @@ import {FC} from "react";
 type DeletePartButtonProps = {
   partId: number;
   onSuccess?: () => void;
-  onError?: (error: any) => void;
+  onError?: (error: unknown) => void;
 }
 
 const DeletePartButton: FC<DeletePartButtonProps> = ({partId, onSuccess, onError}) => {
