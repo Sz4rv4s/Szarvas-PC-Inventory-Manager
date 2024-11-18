@@ -4,9 +4,9 @@ import SearchPart from './SearchPart.tsx';
 import ContentHeader from './ContentHeader';
 import AddPartModal from './AddPartModal';
 import styles from './MainContent.module.css';
-import DeletePartModal from "./DeletePartModal.tsx";
 import UpdatePriceModal from "./UpdatePriceModal.tsx";
 import UpdatePartModal from "./UpdatePartModal.tsx";
+import DeletePartButton from "./DeletePartButton.tsx";
 
 interface MainContentProps {
     data: Part[] | Warehouse[] | UpdatedPart[] | null;
@@ -17,7 +17,6 @@ interface MainContentProps {
 const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) => {
     const [searchedPart, setSearchedPart] = useState<Part | Part[] | null>(null);
     const [isAddPartModalOpen, setAddPartModalOpen] = useState(false);
-    const [isDeletePartModalOpen, setDeletePartModalOpen] = useState(false);
     const [isUpdatePriceModalOpen, setIsUpdatePriceModalOpen] = useState(false);
     const [isUpdatePartModalOpen, setIsUpdatePartModalOpen] = useState(false);
 
@@ -41,26 +40,10 @@ const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) 
         console.error("Failed to add part: ", error);
       }
     };
-
-    const handleDeletePartClick = () => {
-      setDeletePartModalOpen(true);
-    };
-
-    const handleDeletePartModalClose = () => {
-      setDeletePartModalOpen(false);
-    };
-
-    const handleDeletePart = async (partId: number) => {
-      try {
-        await fetch(`http://localhost:8000/api/deletepart/${partId}`, {
-          method: 'DELETE',
-          headers: {'Content-Type': 'application/json'},
-        });
-        await fetchData('getallparts', 'parts');
-      } catch (error) {
-        console.error("Failed to delete part: ", error);
-      }
-    };
+    
+    const handleDeleteSuccess = async () => {
+      await fetchData('getallparts', 'parts');
+    }
 
     const handleUpdatePriceClick = () => {
       setIsUpdatePriceModalOpen(true);
@@ -134,7 +117,6 @@ const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) 
                         <SearchPart onPartFound={handlePartFound} onClear={handleClearSearch} />
                     </div>
                   <button className={styles.button} onClick={handleAddPartClick}>Add Part</button>
-                  <button className={styles.buttonRed} onClick={handleDeletePartClick}>Delete Part</button>
                   <button className={styles.button} onClick={handleUpdatePartClick}>Update Part</button>
                   <button className={styles.button} onClick={handleUpdatePriceClick}>Update Price</button>
                 </div>
@@ -144,11 +126,6 @@ const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) 
                 onClose={handleAddPartModalClose}
                 onSave={handleSavePart}
                 defaultId={data ? data.length + 2 : 1}
-            />
-          <DeletePartModal
-            isOpen={isDeletePartModalOpen}
-            onClose={handleDeletePartModalClose}
-            onSave={handleDeletePart}
             />
           <UpdatePartModal
             isOpen={isUpdatePartModalOpen}
@@ -236,6 +213,9 @@ const MainContent: React.FC<MainContentProps> = ({ data, dataType, fetchData }) 
                                     <td>{part.model}</td>
                                     <td>{part.brand}</td>
                                     <td>€{part.price}</td>
+                                  <td>
+                                    <DeletePartButton partId={part.id} onSuccess={handleDeleteSuccess}/>
+                                  </td>
                                 </tr>
                             ))
                             : (data as Warehouse[]).map((warehouse) => (
