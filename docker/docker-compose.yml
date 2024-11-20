@@ -1,11 +1,11 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: mysql-container
+    container_name: mysql
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: keycloakdb
+      MYSQL_DATABASE: keycloak
       MYSQL_USER: keycloak
       MYSQL_PASSWORD: keycloak
     ports:
@@ -14,46 +14,47 @@ services:
       - mysql-data:/var/lib/mysql
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
     networks:
-      - keycloak-network
+      - docker-network
 
   keycloak:
     image: quay.io/keycloak/keycloak:22.0.1
-    container_name: keycloak-container
+    container_name: keycloak
     restart: unless-stopped
     environment:
-      KC_DB: mysql
-      KC_DB_URL: jdbc:mysql://mysql:3306/keycloakdb
-      KC_DB_USERNAME: keycloak
-      KC_DB_PASSWORD: keycloak
-      KEYCLOAK_ADMIN: szarvas
-      KEYCLOAK_ADMIN_PASSWORD: szarvas
+      DB: mysql
+      DB_USERNAME: keycloak
+      DB_PASSWORD: keycloak
+      DB_URL: jdbc:mysql://mysql:3306/keycloak
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
     ports:
       - "8080:8080"
+      - "8443:8443"
     command: ["start-dev"]
     depends_on:
       - mysql
     networks:
-      - keycloak-network
+      - docker-network
 
   spring-backend:
     build:
       context: ../backend
-    container_name: spring-app-container
+    container_name: spring
     restart: unless-stopped
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: jdbc:mysql://mysql-container:3306/szarvaspc
+      DATABASE_URL: jdbc:mysql://mysql:3306/szarvaspc
       DATABASE_USERNAME: api
       DATABASE_PASSWORD: api
     depends_on:
       - mysql
       - keycloak
     networks:
-      - keycloak-network
+      - docker-network
 
 volumes:
   mysql-data:
 
 networks:
-  keycloak-network:
+  docker-network:

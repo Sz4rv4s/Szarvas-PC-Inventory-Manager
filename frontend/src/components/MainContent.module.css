@@ -38,6 +38,10 @@
     margin-bottom: 1rem;
 }
 
+.button:hover {
+    background-color: #0056b3;
+}
+
 .searchControls {
     display: flex;
     align-items: center;

@@ -38,13 +38,13 @@ const UpdatePriceButton: FC<UpdatePriceButtonProps> = ({partId, onSuccess}) => {
       <button
         onClick={() => setModalOpen(true)}
         style={{
-          backgroundColor: '#4caf50',
+          padding: '0.5rem 1rem',
+          backgroundColor: '#28a745',
           color: 'white',
-          padding: '10px 20px',
           border: 'none',
-          borderRadius: '5px',
           cursor: 'pointer',
-          marginLeft: '10px',
+          marginLeft: '1rem',
+          marginBottom: '1rem'
         }}
       >
         Update Price
@@ -79,9 +79,9 @@ const UpdatePriceButton: FC<UpdatePriceButtonProps> = ({partId, onSuccess}) => {
               onChange={(e) => setNewPrice(Number(e.target.value))}
               placeholder="Enter new price"
               style={{
-                width: '100%',
-                padding: '10px',
-                margin: '10px 0',
+                width: '80%',
+                padding: '0.5rem',
+                margin: '1rem',
                 border: '1px solid #ccc',
                 borderRadius: '5px',
               }}
@@ -90,12 +90,11 @@ const UpdatePriceButton: FC<UpdatePriceButtonProps> = ({partId, onSuccess}) => {
               <button
                 onClick={handleUpdatePrice}
                 style={{
-                  backgroundColor: '#4caf50',
+                  padding: '0.5rem 1rem',
+                  backgroundColor: '#28a745',
                   color: 'white',
-                  padding: '10px 20px',
                   border: 'none',
-                  borderRadius: '5px',
-                  marginRight: '10px',
+                  marginRight: '1rem',
                 }}
               >
                 Save
@@ -103,11 +102,11 @@ const UpdatePriceButton: FC<UpdatePriceButtonProps> = ({partId, onSuccess}) => {
               <button
                 onClick={() => setModalOpen(false)}
                 style={{
-                  backgroundColor: '#f44336',
+                  padding: '0.5rem 1rem',
+                  backgroundColor: '#b60303',
                   color: 'white',
-                  padding: '10px 20px',
                   border: 'none',
-                  borderRadius: '5px',
+                  cursor: 'pointer'
                 }}
               >
                 Cancel
