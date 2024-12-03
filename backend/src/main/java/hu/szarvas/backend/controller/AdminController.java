@@ -5,7 +5,6 @@ import hu.szarvas.backend.dto.PartDTO;
 import hu.szarvas.backend.dto.UpdatePartDTO;
 import hu.szarvas.backend.dto.UpdatePriceDTO;
 import hu.szarvas.backend.service.PartsService;
-import hu.szarvas.backend.service.WarehousesService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -15,7 +14,7 @@ public class AdminController {
 
     private final PartsService partsService;
 
-    public AdminController(PartsService partsService, WarehousesService warehousesService) {
+    public AdminController(PartsService partsService) {
         this.partsService = partsService;
     }
 
