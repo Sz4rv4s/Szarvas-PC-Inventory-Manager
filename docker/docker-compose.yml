@@ -5,51 +5,14 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: keycloak
-      MYSQL_USER: keycloak
-      MYSQL_PASSWORD: keycloak
+      MYSQL_DATABASE: szarvaspc
+      MYSQL_USER: api
+      MYSQL_PASSWORD: api
     ports:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
-    networks:
-      - docker-network
-
-  keycloak:
-    image: quay.io/keycloak/keycloak:22.0.1
-    container_name: keycloak
-    restart: unless-stopped
-    environment:
-      DB: mysql
-      DB_USERNAME: keycloak
-      DB_PASSWORD: keycloak
-      DB_URL: jdbc:mysql://mysql:3306/keycloak
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-    ports:
-      - "8080:8080"
-      - "8443:8443"
-    command: ["start-dev"]
-    depends_on:
-      - mysql
-    networks:
-      - docker-network
-
-  spring-backend:
-    build:
-      context: ../backend
-    container_name: spring
-    restart: unless-stopped
-    ports:
-      - "8000:8000"
-    environment:
-      DATABASE_URL: jdbc:mysql://mysql:3306/szarvaspc
-      DATABASE_USERNAME: api
-      DATABASE_PASSWORD: api
-    depends_on:
-      - mysql
-      - keycloak
     networks:
       - docker-network
 

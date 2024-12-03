@@ -1,64 +1,22 @@
 package hu.szarvas.backend.controller;
 
-import hu.szarvas.backend.dto.*;
+import hu.szarvas.backend.dto.ApiResponseDTO;
+import hu.szarvas.backend.dto.PartDTO;
+import hu.szarvas.backend.dto.UpdatePartDTO;
+import hu.szarvas.backend.dto.UpdatePriceDTO;
 import hu.szarvas.backend.service.PartsService;
 import hu.szarvas.backend.service.WarehousesService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api")
-public class RequestController {
+@RequestMapping("/api/admin")
+public class AdminController {
 
     private final PartsService partsService;
 
-    private final WarehousesService warehousesService;
-
-    public RequestController(PartsService partsService, WarehousesService warehousesService) {
+    public AdminController(PartsService partsService, WarehousesService warehousesService) {
         this.partsService = partsService;
-        this.warehousesService = warehousesService;
-    }
-
-    @GetMapping("/getallparts")
-    public List<PartDTO> getAllParts() {
-        return partsService.getAllParts();
-    }
-
-    @GetMapping("/getallwarehouses")
-    public List<WarehouseDTO> getAllWarehouses() {
-        return warehousesService.getAllWarehouses();
-    }
-
-    @GetMapping("/getallpartswithwarehouse")
-    public List<PartWithWarehouseDTO> getAllPartsWithWarehouse() {
-        return partsService.getAllPartsWithWarehouse();
-    }
-
-    @GetMapping("/getallwarehouseswithparts")
-    public List<WarehouseWithPartsDTO> getAllWarehousesWithParts() {
-        return warehousesService.getAllWarehousesWithParts();
-    }
-
-    @GetMapping("/getpart/{id}")
-    public PartDTO getPart(@PathVariable final int id) {
-        return partsService.getPartById(id);
-    }
-
-    @GetMapping("/search/{name}")
-    public List<PartDTO> searchPart(@PathVariable final String name) {
-        return partsService.searchPartsByModel(name);
-    }
-
-    @GetMapping("/getwarehousebyid/{warehouseId}")
-    public WarehouseWithPartsDTO getWarehouseById(@PathVariable final int warehouseId) {
-        return warehousesService.getPartsByWarehouseId(warehouseId);
-    }
-
-    @GetMapping("/getwarehousebyname/{warehouseName}")
-    public List<WarehouseWithPartsDTO> getWarehouseByName(@PathVariable final String warehouseName) {
-        return warehousesService.getPartsByWarehouseName(warehouseName);
     }
 
     @PostMapping("/addpart/{warehouseId}")

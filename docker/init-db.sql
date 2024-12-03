@@ -1,29 +1,23 @@
-CREATE DATABASE IF NOT EXISTS szarvaspc
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS szarvaspc;
 
 USE szarvaspc;
 
 CREATE TABLE IF NOT EXISTS warehouses (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-    city VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-    address VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-    capacity INT
-) ENGINE=InnoDB
-CHARACTER SET utf8mb4
-COLLATE utf8mb4_unicode_ci;
+    name VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    capacity INT NOT NULL
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS parts (
     id INT PRIMARY KEY NOT NULL,
-    model VARCHAR(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-    brand VARCHAR(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    model VARCHAR(60) NOT NULL,
+    brand VARCHAR(30) NOT NULL,
     price INT NOT NULL,
     warehouse_id INT NOT NULL,
     CONSTRAINT parts_fk FOREIGN KEY (warehouse_id) REFERENCES warehouses (id)
-) ENGINE=InnoDB
-CHARACTER SET utf8mb4
-COLLATE utf8mb4_unicode_ci;
+) ENGINE=InnoDB;
 
 INSERT INTO warehouses (id, name, city, address, capacity) VALUES (1, 'Large Warehouse', 'Berlin', 'Alexanderplatz 15', 10000);
 INSERT INTO warehouses (id, name, city, address, capacity) VALUES (2, 'West Warehouse', 'Munich', 'Marienplatz 97', 6750);
