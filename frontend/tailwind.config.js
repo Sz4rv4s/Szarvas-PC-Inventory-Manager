@@ -9,7 +9,12 @@ export default {
       colors: {
         'primary': '#003366',
         'secondary': '#FFFFFF',
-        'cred': '#B60303'
+        'cred': '#B60303',
+        'credhover': '#8C0202',
+        'cblue': '#007BFF',
+        'cbluehover': '#0056B3',
+        'cgreen': '#28a745',
+        'cgreenhover': '#218838',
       },
     },
   },

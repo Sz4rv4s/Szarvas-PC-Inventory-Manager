@@ -1,9 +1,11 @@
+import Warehouses from "../pages/Warehouses.tsx";
+
 export interface Part {
     id: number;
     model: string;
     brand: string;
     price: number;
-    warehouseId: number;
+    warehouseId: Warehouse;
 }
 
 export interface Warehouse {
@@ -26,7 +28,7 @@ export type UserRegistrationData = {
   email: string;
   username: string;
   password: string;
-  role: string;
+  role: "ROLE_ADMIN" | "ROLE_USER";
 };
 
 export type UserLoginData = {
