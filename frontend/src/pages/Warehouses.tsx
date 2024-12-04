@@ -83,7 +83,7 @@ const Warehouses = () => {
                             <div key={part.id} className="mb-2">
                               <p><strong>Model:</strong> {part.model}</p>
                               <p><strong>Brand:</strong> {part.brand}</p>
-                              <p><strong>Price:</strong> {part.price}</p>
+                              <p><strong>Price:</strong> {part.price} €</p>
                             </div>
                           ))}
                         </div>

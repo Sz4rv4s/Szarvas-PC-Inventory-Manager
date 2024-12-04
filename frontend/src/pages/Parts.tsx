@@ -8,14 +8,18 @@ const Parts = () => {
   const { isLoggedIn, jwt, role } = useAuth();
   const [parts, setParts] = useState<(PartWithWarehouse | PartForWarehouse)[]>([]);
   const [selectedPart, setSelectedPart] = useState<number | null>(null);
+  const [isSearched, setIsSearched] = useState<boolean>(false);
 
   const handlePartFound = (part: PartForWarehouse | null | PartForWarehouse[]) => {
     if (Array.isArray(part)) {
       setParts(part);
+      setIsSearched(true);
     } else if (part) {
       setParts([part]);
+      setIsSearched(true);
     } else {
       setParts([]);
+      setIsSearched(false);
     }
   };
 
@@ -47,6 +51,7 @@ const Parts = () => {
 
   const handleClear = () => {
     fetchParts().then(() => console.log('Parts fetched'));
+    setIsSearched(false);
   };
 
   return (
@@ -61,7 +66,7 @@ const Parts = () => {
                 <th className="py-2 px-4 border-b">Model</th>
                 <th className="py-2 px-4 border-b">Brand</th>
                 <th className="py-2 px-4 border-b">Price</th>
-                <th className="py-2 px-4 border-b">Warehouse</th>
+                {!isSearched && <th className="py-2 px-4 border-b">Warehouse</th>}
                 {role === "ROLE_ADMIN" && (
                   <th className="py-2 px-4 border-b">Settings</th>
                 )}
@@ -74,30 +79,32 @@ const Parts = () => {
                     <td className="py-2 px-4 border-b">{part.id}</td>
                     <td className="py-2 px-4 border-b">{part.model}</td>
                     <td className="py-2 px-4 border-b">{part.brand}</td>
-                    <td className="py-2 px-4 border-b">{part.price}</td>
-                    <td className="py-2 px-4 border-b">
-                      {'warehouseId' in part ? (
-                        <button
-                          onClick={() => toggleDropdown(part.id)}
-                          className="text-cblue hover:underline"
-                        >
-                          {part.warehouseId.name}
-                        </button>
-                      ) : (
-                        'N/A'
-                      )}
-                    </td>
+                    <td className="py-2 px-4 border-b">{part.price} €</td>
+                    {!isSearched && (
+                      <td className="py-2 px-4 border-b">
+                        {'warehouseId' in part ? (
+                          <button
+                            onClick={() => toggleDropdown(part.id)}
+                            className="text-cblue hover:underline"
+                          >
+                            {part.warehouseId.name}
+                          </button>
+                        ) : (
+                          'N/A'
+                        )}
+                      </td>
+                    )}
                     {role === "ROLE_ADMIN" && (
                       <td className="py-2 px-4 border-b w-1/5">Buttons</td>
                     )}
                   </tr>
-                  {'warehouseId' in part && selectedPart === part.id && (
+                  {!isSearched && 'warehouseId' in part && selectedPart === part.id && (
                     <tr>
                       <td colSpan={(role === "ROLE_ADMIN" ? 6 : 5)} className="py-2 px-4 border-b bg-gray-100">
                         <div>
                           <p><strong>City:</strong> {part.warehouseId.city}</p>
                           <p><strong>Address:</strong> {part.warehouseId.address}</p>
-                          <p><strong>Capacity:</strong> {part.warehouseId.capacity}</p>
+                          <p><strong>Capacity:</strong> {part.warehouseId.capacity} Pallets</p>
                         </div>
                       </td>
                     </tr>
