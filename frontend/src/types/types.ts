@@ -30,11 +30,19 @@ export interface WarehouseWithParts {
     parts: PartForWarehouse[];
 }
 
-export interface UpdatedPart {
-    model: string;
-    brand: string;
-    price: number;
-    warehouseId: number;
+export interface SearchPartProps {
+  onPartFound: (part: PartForWarehouse | null | PartForWarehouse[]) => void;
+  onClear: () => void;
+}
+
+export interface PartsPanelProps {
+  onPartFound: (part: PartForWarehouse | null | PartForWarehouse[]) => void;
+  onClear: () => void;
+}
+
+export interface ModalProps {
+    message: string | null;
+    onClose: () => void;
 }
 
 export type UserRegistrationData = {
