@@ -1,19 +1,33 @@
-import Warehouses from "../pages/Warehouses.tsx";
-
-export interface Part {
+export interface PartWithWarehouse {
     id: number;
     model: string;
     brand: string;
     price: number;
-    warehouseId: Warehouse;
+    warehouseId: WarehouseForPart;
 }
 
-export interface Warehouse {
+export interface WarehouseForPart {
     id: number;
     name: string;
     city: string;
     address: string;
     capacity: number;
+}
+
+export interface PartForWarehouse {
+    id: number;
+    model: string;
+    brand: string;
+    price: number;
+}
+
+export interface WarehouseWithParts {
+    id: number;
+    name: string;
+    city: string;
+    address: string;
+    capacity: number;
+    parts: PartForWarehouse[];
 }
 
 export interface UpdatedPart {

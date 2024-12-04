@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Part } from '../types/types';
+import {PartWithWarehouse} from '../types/types';
 import {useAuth} from "../context/UseAuth.ts";
 
 const Parts = () => {
   const { isLoggedIn, jwt, role } = useAuth();
-  const [parts, setParts] = useState<Part[]>([]);
+  const [parts, setParts] = useState<PartWithWarehouse[]>([]);
   const [selectedPart, setSelectedPart] = useState<number | null>(null);
 
 
