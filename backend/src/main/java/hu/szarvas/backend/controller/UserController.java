@@ -6,7 +6,6 @@ import hu.szarvas.backend.dto.WarehouseDTO;
 import hu.szarvas.backend.dto.WarehouseWithPartsDTO;
 import hu.szarvas.backend.service.PartsService;
 import hu.szarvas.backend.service.WarehousesService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +21,7 @@ public class UserController {
 
     private final WarehousesService warehousesService;
 
-    public UserController(PartsService partsService, WarehousesService warehousesService, PasswordEncoder passwordEncoder) {
+    public UserController(PartsService partsService, WarehousesService warehousesService) {
         this.partsService = partsService;
         this.warehousesService = warehousesService;
     }
