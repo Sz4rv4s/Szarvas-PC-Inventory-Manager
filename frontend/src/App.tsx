@@ -1,45 +1,24 @@
-import React, { useState } from 'react';
-import Navbar from './components/Navbar';
-import MainContent from './components/MainContent';
-import { Part, Warehouse } from './types';
-import styles from './App.module.css';
+import {Route, BrowserRouter, Routes} from "react-router-dom";
+import Navbar from "./components/Navbar.tsx";
+import Register from "./pages/Register.tsx";
+import Login from "./pages/Login.tsx";
+import Home from "./pages/Home.tsx";
+import {AuthProvider} from "./context/AuthContext.tsx";
 
-const App: React.FC = () => {
-    const [data, setData] = useState<Part[] | Warehouse[] | null>(null);
-    const [dataType, setDataType] = useState<'parts' | 'warehouses'>('warehouses');
-
-    const fetchData = async (endpoint: string, type: 'parts' | 'warehouses') => {
-        try {
-            const response = await fetch(`http://localhost:8000/api/${endpoint}`);
-            if (!response.ok) {
-                console.error("Error fetching data", response);
-            }
-            const result = await response.json();
-            setData(result);
-            setDataType(type);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const handleButtonClick = (type: string) => {
-        if (type === 'parts') {
-            fetchData('getallparts', 'parts');
-        } else if (type === 'warehouses') {
-            fetchData('getallwarehouses', 'warehouses');
-        }
-    };
-
-    return (
-        <div className={styles.app}>
-            <Navbar onButtonClick={handleButtonClick} />
-            <MainContent
-                data={data}
-                dataType={dataType}
-                fetchData={fetchData}
-            />
+const App= () => {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <div className="min-h-screen flex flex-col bg-gray-100">
+          <Navbar/>
+          <Routes>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/register" element={<Register/>}/>
+            <Route path="/login" element={<Login/>}/>
+          </Routes>
         </div>
-    );
-};
-
+      </BrowserRouter>
+    </AuthProvider>
+  )
+}
 export default App;
