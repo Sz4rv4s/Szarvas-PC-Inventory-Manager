@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { WarehouseWithParts } from '../types/types';
 import { useAuth } from "../context/UseAuth.ts";
+import {USER_ENDPOINTS} from "../types/endpoints.ts";
 
 const Warehouses = () => {
   const { isLoggedIn, jwt, role } = useAuth();
@@ -10,7 +11,7 @@ const Warehouses = () => {
   useEffect(() => {
     const fetchWarehouses = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/user/getallwarehouseswithparts', {
+        const response = await fetch(USER_ENDPOINTS.GET_ALL_WAREHOUSES_WITH_PARTS, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${jwt}`,

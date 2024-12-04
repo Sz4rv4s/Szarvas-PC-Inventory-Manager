@@ -3,6 +3,7 @@ import {DecodedToken, UserRegistrationData} from "../types/types.ts";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../context/UseAuth.ts";
 import {jwtDecode} from "jwt-decode";
+import {AUTH_ENDPOINTS} from "../types/endpoints.ts";
 
 const Register = () => {
   const { setIsLoggedIn, setJwt, setUsername, setRole } = useAuth();
@@ -26,7 +27,7 @@ const Register = () => {
   const handleLogin = async (username: string, password: string) => {
     try {
       console.log("Attempting to log in with:", { username });
-      const response = await fetch("http://localhost:8000/api/authenticate", {
+      const response = await fetch(AUTH_ENDPOINTS.AUTHENTICATE, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +63,7 @@ const Register = () => {
     e.preventDefault();
     try {
       console.log("Attempting to register with:", formData);
-      const response = await fetch("http://localhost:8000/api/users/createuser", {
+      const response = await fetch(AUTH_ENDPOINTS.CREATE_USER, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

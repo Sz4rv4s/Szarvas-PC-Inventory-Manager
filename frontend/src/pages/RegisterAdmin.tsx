@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { UserRegistrationData } from "../types/types.ts";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/UseAuth.ts";
+import {AUTH_ENDPOINTS} from "../types/endpoints.ts";
 
 const RegisterAdmin = () => {
   const { isLoggedIn, role } = useAuth();
@@ -26,7 +27,7 @@ const RegisterAdmin = () => {
     e.preventDefault();
     try {
       console.log("Attempting to register with:", formData);
-      const response = await fetch("http://localhost:8000/api/users/createuser", {
+      const response = await fetch(AUTH_ENDPOINTS.CREATE_USER, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 import {useAuth} from "../context/UseAuth.ts";
+import {AUTH_ENDPOINTS} from "../types/endpoints.ts";
 
 const Login = () => {
   const { setIsLoggedIn, setJwt, setUsername, setRole } = useAuth();
@@ -18,7 +19,7 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8000/api/authenticate", {
+      const response = await fetch(AUTH_ENDPOINTS.AUTHENTICATE, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
