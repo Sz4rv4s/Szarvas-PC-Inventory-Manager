@@ -59,18 +59,24 @@ export interface DeleteButtonProps {
   refetchParts: () => void;
 }
 
+export interface UpdatePriceButtonProps {
+  partId: number;
+  oldPrice: number;
+  refetchParts: () => void;
+}
+
 export type UserRegistrationData = {
   name: string;
   email: string;
   username: string;
   password: string;
   role: "ROLE_ADMIN" | "ROLE_USER";
-};
+}
 
 export type UserLoginData = {
   username: string;
   password: string;
-};
+}
 
 export interface AuthContextTypes {
   isLoggedIn: boolean;

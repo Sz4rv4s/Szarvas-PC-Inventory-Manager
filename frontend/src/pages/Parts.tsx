@@ -5,6 +5,7 @@ import { USER_ENDPOINTS } from "../types/endpoints.ts";
 import PartsPanel from "../components/PartsPanel.tsx";
 import {data} from "react-router-dom";
 import DeleteButton from "../components/DeleteButton.tsx";
+import UpdatePriceButton from "../components/UpdatePriceButton.tsx";
 
 const Parts = () => {
   const { isLoggedIn, jwt, role } = useAuth();
@@ -114,6 +115,7 @@ const Parts = () => {
                     {role === "ROLE_ADMIN" && (
                       <td className="py-2 px-4 border-b w-1/5">
                         <DeleteButton partId={part.id} refetchParts={fetchParts} />
+                        <UpdatePriceButton partId={part.id} oldPrice={part.price} refetchParts={fetchParts} />
                       </td>
                     )}
                   </tr>
