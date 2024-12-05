@@ -3,12 +3,14 @@ import { PartForWarehouse, PartWithWarehouse } from '../types/types';
 import { useAuth } from "../context/UseAuth.ts";
 import { USER_ENDPOINTS } from "../types/endpoints.ts";
 import PartsPanel from "../components/PartsPanel.tsx";
+import {data} from "react-router-dom";
 
 const Parts = () => {
   const { isLoggedIn, jwt, role } = useAuth();
   const [parts, setParts] = useState<(PartWithWarehouse | PartForWarehouse)[]>([]);
   const [selectedPart, setSelectedPart] = useState<number | null>(null);
   const [isSearched, setIsSearched] = useState<boolean>(false);
+
 
   const handlePartFound = (part: PartForWarehouse | null | PartForWarehouse[]) => {
     if (Array.isArray(part)) {
@@ -38,6 +40,7 @@ const Parts = () => {
       setParts(data);
     } catch (error) {
       console.error('Error fetching parts:', error);
+      console.error(data)
     }
   }, [jwt]);
 
@@ -58,7 +61,7 @@ const Parts = () => {
     <>
       {isLoggedIn && jwt ? (
         <div className="p-6">
-          <PartsPanel onPartFound={handlePartFound} onClear={handleClear} />
+          <PartsPanel onPartFound={handlePartFound} onClear={handleClear} partsDataLength={parts ? parts.length + 1 : 1} refetchParts={fetchParts}/>
           <table className="min-w-full bg-white">
             <thead>
               <tr>
@@ -68,7 +71,7 @@ const Parts = () => {
                 <th className="py-2 px-4 border-b">Price</th>
                 {!isSearched && <th className="py-2 px-4 border-b">Warehouse</th>}
                 {role === "ROLE_ADMIN" && (
-                  <th className="py-2 px-4 border-b">Settings</th>
+                  <th className="py-2 px-4 border-b">Options</th>
                 )}
               </tr>
             </thead>

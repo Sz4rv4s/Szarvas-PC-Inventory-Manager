@@ -12,5 +12,5 @@ export const USER_ENDPOINTS = {
 };
 
 export const ADMIN_ENDPOINTS = {
-
+  ADD_PART: `${API_BASE_URL}/admin/addpart/`,
 };

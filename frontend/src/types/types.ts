@@ -38,11 +38,20 @@ export interface SearchPartProps {
 export interface PartsPanelProps {
   onPartFound: (part: PartForWarehouse | null | PartForWarehouse[]) => void;
   onClear: () => void;
+  partsDataLength: number;
+  refetchParts: () => void;
 }
 
 export interface ModalProps {
     message: string | null;
     onClose: () => void;
+}
+
+export interface AddPartModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  defaultId: number;
+  refetchParts: () => void;
 }
 
 export type UserRegistrationData = {
