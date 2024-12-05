@@ -54,6 +54,11 @@ export interface AddPartModalProps {
   refetchParts: () => void;
 }
 
+export interface DeleteButtonProps {
+  partId: number;
+  refetchParts: () => void;
+}
+
 export type UserRegistrationData = {
   name: string;
   email: string;

@@ -4,12 +4,14 @@ import { useAuth } from "../context/UseAuth.ts";
 import { USER_ENDPOINTS } from "../types/endpoints.ts";
 import PartsPanel from "../components/PartsPanel.tsx";
 import {data} from "react-router-dom";
+import DeleteButton from "../components/DeleteButton.tsx";
 
 const Parts = () => {
   const { isLoggedIn, jwt, role } = useAuth();
   const [parts, setParts] = useState<(PartWithWarehouse | PartForWarehouse)[]>([]);
   const [selectedPart, setSelectedPart] = useState<number | null>(null);
   const [isSearched, setIsSearched] = useState<boolean>(false);
+  const [defaultId, setDefaultId] = useState<number>(1);
 
 
   const handlePartFound = (part: PartForWarehouse | null | PartForWarehouse[]) => {
@@ -38,11 +40,13 @@ const Parts = () => {
       }
       const data = await response.json();
       setParts(data);
+      setDefaultId(findDefaultId(data));
+      console.log(defaultId);
     } catch (error) {
       console.error('Error fetching parts:', error);
       console.error(data)
     }
-  }, [jwt]);
+  }, [defaultId, jwt]);
 
   useEffect(() => {
     fetchParts().then(() => console.log('Parts fetched'));
@@ -57,11 +61,21 @@ const Parts = () => {
     setIsSearched(false);
   };
 
+  const findDefaultId = (parts: (PartWithWarehouse | PartForWarehouse)[]) => {
+    const ids = parts.map(part => part.id).sort((a, b) => a - b);
+    for (let i = 1; i <= ids.length; i++) {
+      if (ids[i - 1] !== i) {
+        return i;
+      }
+    }
+    return ids.length + 1;
+  };
+
   return (
     <>
       {isLoggedIn && jwt ? (
         <div className="p-6">
-          <PartsPanel onPartFound={handlePartFound} onClear={handleClear} partsDataLength={parts ? parts.length + 1 : 1} refetchParts={fetchParts}/>
+          <PartsPanel onPartFound={handlePartFound} onClear={handleClear} partsDataLength={defaultId} refetchParts={fetchParts}/>
           <table className="min-w-full bg-white">
             <thead>
               <tr>
@@ -98,7 +112,9 @@ const Parts = () => {
                       </td>
                     )}
                     {role === "ROLE_ADMIN" && (
-                      <td className="py-2 px-4 border-b w-1/5">Buttons</td>
+                      <td className="py-2 px-4 border-b w-1/5">
+                        <DeleteButton partId={part.id} refetchParts={fetchParts} />
+                      </td>
                     )}
                   </tr>
                   {!isSearched && 'warehouseId' in part && selectedPart === part.id && (
