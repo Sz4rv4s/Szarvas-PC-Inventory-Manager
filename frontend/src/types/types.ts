@@ -30,6 +30,14 @@ export interface WarehouseWithParts {
     parts: PartForWarehouse[];
 }
 
+export interface PartForUpdate {
+  id: number;
+  model: string;
+  brand: string;
+  price: number;
+  warehouseId: number;
+}
+
 export interface SearchPartProps {
   onPartFound: (part: PartForWarehouse | null | PartForWarehouse[]) => void;
   onClear: () => void;
@@ -62,6 +70,11 @@ export interface DeleteButtonProps {
 export interface UpdatePriceButtonProps {
   partId: number;
   oldPrice: number;
+  refetchParts: () => void;
+}
+
+export interface UpdatePartButtonProps {
+  oldData: PartForUpdate;
   refetchParts: () => void;
 }
 

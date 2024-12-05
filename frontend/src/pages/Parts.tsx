@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { PartForWarehouse, PartWithWarehouse } from '../types/types';
+import {PartForUpdate, PartForWarehouse, PartWithWarehouse} from '../types/types';
 import { useAuth } from "../context/UseAuth.ts";
 import { USER_ENDPOINTS } from "../types/endpoints.ts";
 import PartsPanel from "../components/PartsPanel.tsx";
 import {data} from "react-router-dom";
 import DeleteButton from "../components/DeleteButton.tsx";
 import UpdatePriceButton from "../components/UpdatePriceButton.tsx";
+import UpdatePartButton from "../components/UpdatePartButton.tsx";
 
 const Parts = () => {
   const { isLoggedIn, jwt, role } = useAuth();
@@ -72,6 +73,16 @@ const Parts = () => {
     return ids.length + 1;
   };
 
+  const convertToPartForUpdate = (part: PartWithWarehouse | PartForWarehouse): PartForUpdate => {
+    return {
+      id: part.id,
+      model: part.model,
+      brand: part.brand,
+      price: part.price,
+      warehouseId: "warehouseId" in part ? part.warehouseId.id : 1,
+    };
+  };
+
   return (
     <>
       {isLoggedIn && jwt ? (
@@ -116,6 +127,7 @@ const Parts = () => {
                       <td className="py-2 px-4 border-b w-1/5">
                         <DeleteButton partId={part.id} refetchParts={fetchParts} />
                         <UpdatePriceButton partId={part.id} oldPrice={part.price} refetchParts={fetchParts} />
+                        <UpdatePartButton oldData={convertToPartForUpdate(part)} refetchParts={fetchParts} />
                       </td>
                     )}
                   </tr>
@@ -123,6 +135,7 @@ const Parts = () => {
                     <tr>
                       <td colSpan={(role === "ROLE_ADMIN" ? 6 : 5)} className="py-2 px-4 border-b bg-gray-100">
                         <div>
+                          <p><strong>Warehouse ID:</strong> {part.warehouseId.id}</p>
                           <p><strong>City:</strong> {part.warehouseId.city}</p>
                           <p><strong>Address:</strong> {part.warehouseId.address}</p>
                           <p><strong>Capacity:</strong> {part.warehouseId.capacity} Pallets</p>

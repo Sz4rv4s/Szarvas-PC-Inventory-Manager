@@ -15,4 +15,5 @@ export const ADMIN_ENDPOINTS = {
   ADD_PART: `${API_BASE_URL}/admin/addpart/`,
   DELETE_PART: `${API_BASE_URL}/admin/deletepart/`,
   UPDATE_PART_PRICE: `${API_BASE_URL}/admin/updateprice`,
+  UPDATE_PART: `${API_BASE_URL}/admin/updatepart/`,
 };
